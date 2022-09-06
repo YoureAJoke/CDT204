@@ -47,6 +47,6 @@ Print_Int:
     syscall
 
     li $v0, 1 #prints integer value 
-    move $a0, $s0 #integer value from the largest value is stored into s0, put into argument to be printed
+    move $a0, $s0 #integer value from the largest value is stored into s0 then put into argument to be printed
     syscall
     jr $ra
