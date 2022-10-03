@@ -170,7 +170,7 @@ int main(void) {
 	/*
 	//set i-th bit of a 32 bit int variable
 	int bit_to_set;
-	printf("Enter bit to set between 0-31: ");
+	printf("Enter bit to set between 1-32: ");
 	scanf("%d", &bit_to_set);
 	int new_num = setIBIT(num, bit_to_set);
 	printf("old num %d\nNew num %d", num, new_num);
@@ -179,7 +179,7 @@ int main(void) {
 	/*
 	//reset i-th bit of a 32 bit int variable
 	int bit_to_reset;
-	printf("Enter the bit to reset between 0-31: ");
+	printf("Enter the bit to reset between 1-32: ");
 	scanf("%d", &bit_to_reset);
 	int new_num = resetIBIT(num, bit_to_reset);
 	printf("old num %d\nNew num %d", num, new_num);
@@ -188,7 +188,7 @@ int main(void) {
 	/*
 	//flip the i-th bit of a 32 bit int variable
 	int bit_to_flip;
-	printf("Enter a bit to flip between 0-31: ");
+	printf("Enter a bit to flip between 1-32: ");
 	scanf("%d", &bit_to_flip);
 	int new_num = flipIBIT(num, bit_to_flip);
 	printf("Old num %d\nNew num %d", num, new_num);
