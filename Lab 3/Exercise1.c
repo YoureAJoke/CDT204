@@ -73,7 +73,7 @@ int count_zeros_leading(int num) {
 			break;
 		}
 
-		amount_zero++;
+		amount_zero = amount_zero + 1;
 	}
 
 	return amount_zero;
