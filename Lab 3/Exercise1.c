@@ -5,49 +5,50 @@
 //exercise 1 a find if the least significant bit is set or not
 int findLSB(int num) {
 	//if the return is 1 means that lsb is set if 0 its not set.
+	//the return is only 1 when both operands both bits are 1
 	return num & 1;
 }
 
 //exercise 1 b find if the most significant bit is set or not
 int findMSB(int num) {
-
-	//2^31 x 1 = 2147483648 which is the highest value in an signed integer
-	//move the first bit of 1 to the highest (moving it from least significant bit to the most significant), it will return 1 if it is set or 0 if it is not set.
-	return (1 << 31) & num;
+	// 2^31 x lsb gives highest integer value, moving it from lsb to msb.
+	//compare msb with number to see if both operands bits are 1, if it is return 1 if not return 0. if the bit is set it will return 1.
+	return num & (1 << 31);
 }
 
 //exercise 1 c find the i-th bit of a 32bit int variable
 int findIBIT(int num, int bit_check) {
-	//shift right bit_check amount of times the number to right and see if value is 0 or 1, 1 means it is set 0 not set. num/bitcheck^(x) x = a value between 0-31
-	//check with AND-operand if it is active or not if not return 0 if it is active return 1.
+	//shift right bit_check amount of times, do AND on every single bit to see which bits are 1. return 1 if its set 0 if not.
 	return (num >> bit_check) & 1;
 }
 //exercise 1 d set the i-th bit of a 32-bit int variable
 int setIBIT(int num, int bit_to_set) {
-	//shift left bit_to_set amount to num will give new num value being num x 2^i, i being the bit_to_set value entered.
+	//shift left bit_to_set amount of times from lsb to that pos in bits, then multiply with num to get the new value.
 	return (1 << bit_to_set) * num;
 }
 
 //exercise 1 e reset the i-th bit of a 32-bit int variable
 int resetIBIT(int num, int bit_to_reset) {
-	//do a NOT-operation with bit to reset bit being the only one as 0 do AND-operation to compare number with bit-to-reset only keeping what they have in common being left returning then a new value. 
-	// where it is 1 for the first and 0 for the other it wont be stored it has to be 1 to 1 in both
+	//shift left bit_to_reset amount of times to get the bit pos to be reset, inverse using NOT-operator (tilde).
+	//thereafter do AND-operation with num to get the new value of when the bit pos has been reset.
 	return (~(1 << bit_to_reset) & num);
 }
 
 //exercise 1 f flip the i-th bit of a 32-bit int variable
 int flipIBIT(int num, int bit_to_flip) {
-	//bitwise XOR between number and the bit to flip, flipping the bit_to_flip into 1 or 0 depending on its initial value in num whethher its being user or not.
+	//shift left bit_to_flip amount of times to get the bit position. thereafter do a XOR-operation with the number. If two bits are different XOR will then be 1.
+	//flipping the bits in where it is 1 and 0 between the bit position and num.
 	return (1 << bit_to_flip) ^ num;
 }
 
 //exercise 1 g to count trailing zeros in a 32-bit int variable
-int count_zeros(int num) {
+int count_zeros_trailing(int num) {
 	
 	//do a loop to iterate through bits until 1 is found break and return count of the entered number.
 	int amount_zero = 0;
 	int i = 0;
 
+	//from LSB count the zeroes until the first 1 is reached then break and return the amount of zeros.
 	while (i < 32) {
 		//check if bit is set if its set break
 		if ((num >> i) & 1) {
@@ -62,17 +63,17 @@ int count_zeros(int num) {
 
 //exercise 1 h to count leading zeros in a 32 bit int variable
 int count_zeros_leading(int num) {
-	int amount_zero = 0, msb = 1 << 31;
-	int i = 0;
-	//do a loop to iterate thgouh bits from msb to backwards until bit that is set is found break and end return the count of zeros
-	while (i < 32) {
+	int amount_zero = 0;
+	int msb = (1 << 31);
 
-		if ((num >> i ) & msb) {
+	//start from msb to lsb and count the zeros until 1 is found break from loop and return the amount of zeros.
+	for (int i = 0; i < 32; i++) {
+		//do AND operation to compare, to see if both bits are 1 to terminate the loop.
+		if ((num << i) & msb) {
 			break;
 		}
 
-		amount_zero = amount_zero + 1;
-		i++;
+		amount_zero++;
 	}
 
 	return amount_zero;
@@ -89,7 +90,10 @@ int multiply_int(int num) {
 	//shift to the left by 4 bits, it will be equal to 2^4 = 16. that means new num will be the number entered multiplied 2^4.
 	int new_num = num << 4;
 
-	if (new_num < num) {
+	if (new_num < num && num > 0) {
+		return num;
+	}
+	else if (num < 0 && new_num > num) {
 		return num;
 	}
 	else {
@@ -99,6 +103,7 @@ int multiply_int(int num) {
 
 //exercise 1 k to calculate the reminder of dividing a 32 bit int variable by 128
 int remainder_calc(int num) {
+	//use modolu to get the remainder out of num by the variable 128.
 	return num % 128;
 }
 
@@ -191,10 +196,10 @@ int main(void) {
 
 	/*
 	//count trailing zeros in a 32 bit int variable
-	int count = count_zeros(num);
+	int count = count_zeros_trailing(num);
 	printf("Trailing Count of Zeros %d for the num %d", count, num);
 	*/
-
+	
 	/*
 	//count leading zeros in a 32 bit int variable
 	int count = count_zeros_leading(num);
@@ -224,8 +229,10 @@ int main(void) {
 	printf("remainder: %d %% 128 = %d", num, remainder);
 	*/
 
+	/*
 	//To print the bit representation of a 32-bit int variable (LSB must be shown on the right)
 	dec_to_bin(num);
+	*/
 	
 
 	return 0;
