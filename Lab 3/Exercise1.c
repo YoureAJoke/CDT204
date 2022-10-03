@@ -24,7 +24,7 @@ int findIBIT(int num, int bit_check) {
 //exercise 1 d set the i-th bit of a 32-bit int variable
 int setIBIT(int num, int bit_to_set) {
 	//shift left bit_to_set amount of times from lsb to that pos in bits, then multiply with num to get the new value.
-	return (1 << bit_to_set) * num;
+	return (1 << bit_to_set-1) | num;
 }
 
 //exercise 1 e reset the i-th bit of a 32-bit int variable
